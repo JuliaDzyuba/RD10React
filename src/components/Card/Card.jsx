@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Stars from '../Stars';
+
 import styles from './styles.module.scss';
 import { API_IMAGE_URL } from '../../constants';
 
@@ -26,7 +28,7 @@ function Card({ item, onClick }) {
         </div>
       </div>
       <div className={styles.footer}>
-        {item.vote_average}
+        <Stars />
       </div>
     </li>
   );
