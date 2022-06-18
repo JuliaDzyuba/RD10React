@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Stars from '../Stars';
 
@@ -6,19 +6,29 @@ import styles from './styles.module.scss';
 import { API_IMAGE_URL } from '../../constants';
 
 function Card({ item, onClick }) {
+  const [likes, setLikes] = useState(0);
+
+  const handleLike = () => {
+    setLikes((prev) => prev + 1);
+  };
+
+  const handleDislike = () => {
+    setLikes((prev) => prev - 1);
+  };
+
   return (
     <li className={styles.card}>
       <div className={styles.inner}>
         <div className={styles.reactions}>
-          <button type="button" className={styles.like} title="Like">
+          <button type="button" className={styles.like} title="Like" onClick={handleLike}>
             &#128077;
           </button>
-          <button type="button" className={styles.dislike} title="Dislike">
+          <button type="button" className={styles.dislike} title="Dislike" onClick={handleDislike}>
             &#128078;
           </button>
           <span className={styles.likes}>Likes</span>
           <hr />
-          <span className={styles.count}>0</span>
+          <span className={styles.count}>{likes}</span>
         </div>
         <div className={styles.info}>
           <h2 onClick={onClick} aria-hidden="true" id={item.id}>{item.title}</h2>
