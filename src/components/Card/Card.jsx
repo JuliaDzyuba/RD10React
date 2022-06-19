@@ -5,15 +5,23 @@ import Stars from '../Stars';
 import styles from './styles.module.scss';
 import { API_IMAGE_URL } from '../../constants';
 
-function Card({ item, onClick }) {
+function Card({
+  item,
+  onClick,
+  getLikesById,
+  getRatingById,
+}) {
   const [likes, setLikes] = useState(0);
+  getLikesById(item.id, likes);
 
   const handleLike = () => {
     setLikes((prev) => prev + 1);
+    getLikesById(item.id, likes);
   };
 
   const handleDislike = () => {
     setLikes((prev) => prev - 1);
+    getLikesById(item.id, likes);
   };
 
   return (
@@ -38,7 +46,7 @@ function Card({ item, onClick }) {
         </div>
       </div>
       <div className={styles.footer}>
-        <Stars />
+        <Stars getRatingById={getRatingById} movieId={item.id} />
       </div>
     </li>
   );
@@ -64,6 +72,8 @@ Card.propTypes = {
     vote_count: PropTypes.number,
   }),
   onClick: PropTypes.func.isRequired,
+  getLikesById: PropTypes.func.isRequired,
+  getRatingById: PropTypes.func.isRequired,
 };
 
 Card.defaultProps = {

@@ -8,15 +8,23 @@ function Info({ movie }) {
     <>
       <div className={styles.rating}>
         <h4>{movie.title}</h4>
-        <p>Likes: 000</p>
-        <div>Stars: </div>
+        <p>
+          <strong>Produced by: </strong>
+          {movie.production_companies.map((company) => ` ${company.name}`).toString()}
+        </p>
+        <p>
+          <strong>Release: </strong>
+          {movie.release_date}
+        </p>
       </div>
       <div className={styles.info}>
         <div className={styles.poster}>
           <img src={`${API_IMAGE_URL}${movie.backdrop_path}`} alt={movie.title} />
         </div>
-        <p><strong>Director: </strong></p>
-        <p><strong>Actors: </strong></p>
+        <p>
+          <strong>Site: </strong>
+          <a href={movie.homepage}>{movie.homepage}</a>
+        </p>
         <p>
           <strong>Genres: </strong>
           {movie.genres.map((g) => g.name).toString()}

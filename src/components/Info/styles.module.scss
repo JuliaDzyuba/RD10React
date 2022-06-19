@@ -1,10 +1,14 @@
 .rating {
   width: 40%;
+  padding: 5px;
+  p {
+    font-size: 12px;
+  }
 }
 
 .info {
   width: 60%;
-
+  padding: 5px;
   p {
     word-break: break-word;
   }
