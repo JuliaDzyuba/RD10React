@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-function Stars({ getRatingById, movieId }) {
-  const [rating, setRating] = useState(0);
-
-  getRatingById(movieId, rating);
+function Stars({ setRatingById, movieId, stars = 0 }) {
+  const [rating, setRating] = useState(stars || 0);
 
   const ratingHandler = (e) => {
-    const rate = e.target.dataset.id;
-    setRating(rate);
-    getRatingById(movieId, rating);
+    const rate = +e.target.dataset.id;
+    setRating(() => rate);
   };
+
+  useEffect(() => {
+    setRatingById(movieId, rating);
+  }, [rating]);
 
   return (
     <div className="stars">
@@ -34,7 +35,12 @@ function Stars({ getRatingById, movieId }) {
 
 Stars.propTypes = {
   movieId: PropTypes.number.isRequired,
-  getRatingById: PropTypes.func.isRequired,
+  stars: PropTypes.number,
+  setRatingById: PropTypes.func.isRequired,
+};
+
+Stars.defaultProps = {
+  stars: 0 || undefined,
 };
 
 export default Stars;

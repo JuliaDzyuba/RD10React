@@ -48,18 +48,20 @@ function Content() {
     setSearchList(newList);
   };
 
-  const getLikesById = (id, likes) => {
+  const setLikesById = (id, likes) => {
     const movie = moviesList.find((item) => item.id === id);
     const idx = moviesList.findIndex((item) => item.id === id);
     movie.likes = likes;
     moviesList.splice(idx, 1, movie);
+    setMoviesList(() => moviesList);
   };
 
-  const getRatingById = (id, rating) => {
+  const setRatingById = (id, rating) => {
     const movie = moviesList.find((item) => item.id === id);
     const idx = moviesList.findIndex((item) => item.id === id);
     movie.rating = rating;
     moviesList.splice(idx, 1, movie);
+    setMoviesList(() => moviesList);
   };
 
   const searchByQuery = () => {
@@ -68,7 +70,7 @@ function Content() {
         .filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
       setSearchList(() => newList);
     } else {
-      setSearchList(moviesList);
+      setSearchList(() => moviesList);
     }
   };
 
@@ -98,8 +100,8 @@ function Content() {
                 key={item.id}
                 item={item}
                 onClick={getCurrentMovieId}
-                getLikesById={getLikesById}
-                getRatingById={getRatingById}
+                setLikesById={setLikesById}
+                setRatingById={setRatingById}
               />
             ))
           }

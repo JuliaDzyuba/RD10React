@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Stars from '../Stars';
 
@@ -8,21 +8,22 @@ import { API_IMAGE_URL } from '../../constants';
 function Card({
   item,
   onClick,
-  getLikesById,
-  getRatingById,
+  setLikesById,
+  setRatingById,
 }) {
-  const [likes, setLikes] = useState(0);
-  getLikesById(item.id, likes);
+  const [likes, setLikes] = useState(item.likes || 0);
 
   const handleLike = () => {
     setLikes((prev) => prev + 1);
-    getLikesById(item.id, likes);
   };
 
   const handleDislike = () => {
     setLikes((prev) => prev - 1);
-    getLikesById(item.id, likes);
   };
+
+  useEffect(() => {
+    setLikesById(item.id, likes);
+  }, [likes]);
 
   return (
     <li className={styles.card}>
@@ -46,7 +47,7 @@ function Card({
         </div>
       </div>
       <div className={styles.footer}>
-        <Stars getRatingById={getRatingById} movieId={item.id} />
+        <Stars setRatingById={setRatingById} movieId={item.id} stars={item.rating} />
       </div>
     </li>
   );
@@ -70,10 +71,12 @@ Card.propTypes = {
     video: PropTypes.bool,
     vote_average: PropTypes.number,
     vote_count: PropTypes.number,
+    likes: PropTypes.number,
+    rating: PropTypes.number,
   }),
   onClick: PropTypes.func.isRequired,
-  getLikesById: PropTypes.func.isRequired,
-  getRatingById: PropTypes.func.isRequired,
+  setLikesById: PropTypes.func.isRequired,
+  setRatingById: PropTypes.func.isRequired,
 };
 
 Card.defaultProps = {
