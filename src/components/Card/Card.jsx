@@ -58,7 +58,7 @@ export default Card;
 Card.propTypes = {
   item: PropTypes.shape({
     adult: PropTypes.bool,
-    backdrop_path: PropTypes.string,
+    backdrop_path: PropTypes.string.isRequired,
     genre_ids: PropTypes.arrayOf(PropTypes.number),
     id: PropTypes.number,
     original_language: PropTypes.string,
@@ -67,18 +67,14 @@ Card.propTypes = {
     popularity: PropTypes.number,
     poster_path: PropTypes.string,
     release_date: PropTypes.string,
-    title: PropTypes.string,
+    title: PropTypes.string.isRequired,
     video: PropTypes.bool,
     vote_average: PropTypes.number,
     vote_count: PropTypes.number,
     likes: PropTypes.number,
     rating: PropTypes.number,
-  }),
+  }).isRequired,
   onClick: PropTypes.func.isRequired,
   setLikesById: PropTypes.func.isRequired,
   setRatingById: PropTypes.func.isRequired,
-};
-
-Card.defaultProps = {
-  item: {},
 };

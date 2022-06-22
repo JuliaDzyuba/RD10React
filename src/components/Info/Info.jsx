@@ -43,29 +43,29 @@ export default Info;
 Info.propTypes = {
   movie: PropTypes.shape({
     adult: PropTypes.bool,
-    backdrop_path: PropTypes.string,
+    backdrop_path: PropTypes.string.isRequired,
     budget: PropTypes.number,
     genres: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number,
-      name: PropTypes.string,
-    })),
-    homepage: PropTypes.string,
+      name: PropTypes.string.isRequired,
+    })).isRequired,
+    homepage: PropTypes.string.isRequired,
     id: PropTypes.number,
     imdb_id: PropTypes.string,
     original_language: PropTypes.string,
     original_title: PropTypes.string,
-    overview: PropTypes.string,
+    overview: PropTypes.string.isRequired,
     popularity: PropTypes.number,
     poster_path: PropTypes.string,
     production_companies: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number,
-      name: PropTypes.string,
-    })),
+      name: PropTypes.string.isRequired,
+    })).isRequired,
     production_countries: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,
     })),
-    release_date: PropTypes.string,
+    release_date: PropTypes.string.isRequired,
     revenue: PropTypes.number,
     runtime: PropTypes.number,
     spoken_languages: PropTypes.arrayOf(PropTypes.shape({
@@ -73,13 +73,9 @@ Info.propTypes = {
     })),
     status: PropTypes.string,
     tagline: PropTypes.string,
-    title: PropTypes.string,
+    title: PropTypes.string.isRequired,
     video: PropTypes.bool,
     vote_average: PropTypes.number,
     vote_count: PropTypes.number,
-  }),
-};
-
-Info.defaultProps = {
-  movie: {},
+  }).isRequired,
 };

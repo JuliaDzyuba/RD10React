@@ -6,21 +6,23 @@ import Info from '../Info';
 import styles from './styles.module.scss';
 
 function Content() {
-  const [moviesList, setMoviesList] = useState(null);
+  const [moviesList, setMoviesList] = useState([]);
   const [currentMovieId, setCurrentMovieId] = useState(null);
   const [currentMovie, setCurrentMovie] = useState(null);
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchList, setSearchList] = useState(null);
+  const [searchList, setSearchList] = useState([]);
 
   useEffect(() => {
     const url = `${API_URL}discover/movie?api_key=${API_KEY}`;
 
     movieServices.getAll(url)
       .then((data) => {
-        setMoviesList(() => data);
-        setSearchList(() => data);
-        setCurrentMovieId(() => data[0].id);
+        if (data.length) {
+          setMoviesList(data);
+          setSearchList(data);
+          setCurrentMovieId(data[0].id);
+        }
       });
   }, []);
 
@@ -29,7 +31,9 @@ function Content() {
       const url = `${API_URL}/movie/${currentMovieId}?api_key=${API_KEY}`;
       movieServices.getById(url)
         .then((data) => {
-          setCurrentMovie(() => data);
+          if (data) {
+            setCurrentMovie(data);
+          }
         });
     }
   }, [currentMovieId]);
@@ -53,7 +57,7 @@ function Content() {
     const idx = moviesList.findIndex((item) => item.id === id);
     movie.likes = likes;
     moviesList.splice(idx, 1, movie);
-    setMoviesList(() => moviesList);
+    setMoviesList(moviesList);
   };
 
   const setRatingById = (id, rating) => {
@@ -61,16 +65,16 @@ function Content() {
     const idx = moviesList.findIndex((item) => item.id === id);
     movie.rating = rating;
     moviesList.splice(idx, 1, movie);
-    setMoviesList(() => moviesList);
+    setMoviesList(moviesList);
   };
 
   const searchByQuery = () => {
     if (searchQuery) {
       const newList = moviesList
         .filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
-      setSearchList(() => newList);
+      setSearchList(newList);
     } else {
-      setSearchList(() => moviesList);
+      setSearchList(moviesList);
     }
   };
 
@@ -95,20 +99,22 @@ function Content() {
         </div>
         <ul className={styles.list}>
           {
-            searchList && searchList.map((item) => (
-              <Card
-                key={item.id}
-                item={item}
-                onClick={getCurrentMovieId}
-                setLikesById={setLikesById}
-                setRatingById={setRatingById}
-              />
-            ))
+            searchList
+              ? searchList.map((item) => (
+                <Card
+                  key={item.id}
+                  item={item}
+                  onClick={getCurrentMovieId}
+                  setLikesById={setLikesById}
+                  setRatingById={setRatingById}
+                />
+              ))
+              : 'Oops! There is nothing here.'
           }
         </ul>
       </div>
       <div className={styles.right}>
-        {currentMovie && <Info movie={currentMovie} />}
+        {currentMovie ? <Info movie={currentMovie} /> : 'Oops! There is nothing here.'}
       </div>
     </main>
   );
