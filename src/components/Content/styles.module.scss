@@ -1,0 +1,71 @@
+.container {
+  width: 100%;
+  max-width: 1550px;
+  height: auto;
+  margin: 0 auto;
+  margin-bottom: auto;
+  display: flex;
+  padding: 10px; 
+}
+
+.left {
+  width: 60%;
+}
+
+.right {
+  width: 40%;  
+  min-height: 300px;
+  height: auto;
+  padding: 10px;
+  border: 1px solid lightgray;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 10px;
+  list-style: none;
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.sorting {
+  text-align: center;
+  button {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    background: none;
+    padding: 5px 15px;
+    font-weight: 700;
+    margin: 0 10px;
+    cursor: pointer;
+    &:hover {
+      color: rgb(255, 5, 76);
+    }
+  }
+}
+
+.searchForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto;
+  button {
+    border-radius: 5px 0 0 5px;
+    border: 1px solid lightgrey;
+    padding: 13px;
+    background: url('https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/search-512.png') no-repeat center center / 15px;
+    margin: 0;
+  }
+}
+
+.search {
+  display: block;
+  border: 1px solid lightgrey;
+  border-radius: 0 5px 5px 0;
+  padding: 5px;
+  
+}
