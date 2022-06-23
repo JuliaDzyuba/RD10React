@@ -15,7 +15,7 @@ function Content(props) {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [searchList, setSearchList] = useState([]);
-  // const [isFiltered, setIsFiltered] = useState(false);
+  const [sortingType, setSortingType] = useState('');
 
   useEffect(() => {
     const url = `${API_URL}discover/movie?api_key=${API_KEY}`;
@@ -48,14 +48,38 @@ function Content(props) {
     setCurrentMovieId(e.target.id);
   };
 
-  const filterByLikes = () => {
-    const newList = [...movies].sort((a, b) => b.likes - a.likes);
-    setSearchList(newList);
+  const sortingByLikes = (e) => {
+    if (e.target.value === 'ASC') {
+      const newList = [...searchList].sort((a, b) => b.likes - a.likes);
+      setSearchList(newList);
+      setSortingType(e.target.value);
+    }
+    if (e.target.value === 'DESC') {
+      const newList = [...searchList].sort((a, b) => a.likes - b.likes);
+      setSearchList(newList);
+      setSortingType(e.target.value);
+    }
+    if (!e.target.value) {
+      setSearchList(movies);
+      setSortingType('');
+    }
   };
 
-  const filterByRating = () => {
-    const newList = [...movies].sort((a, b) => b.rating - a.rating);
-    setSearchList(newList);
+  const sortingByRating = (e) => {
+    if (e.target.value === 'ASC') {
+      const newList = [...searchList].sort((a, b) => b.rating - a.rating);
+      setSearchList(newList);
+      setSortingType(e.target.value);
+    }
+    if (e.target.value === 'DESC') {
+      const newList = [...searchList].sort((a, b) => a.rating - b.rating);
+      setSearchList(newList);
+      setSortingType(e.target.value);
+    }
+    if (!e.target.value) {
+      setSearchList(movies);
+      setSortingType('');
+    }
   };
 
   const searchByQuery = () => {
@@ -73,8 +97,22 @@ function Content(props) {
       <div className={styles.left}>
         <div className={styles.sorting}>
           <h4>Sort movies</h4>
-          <button type="button" onClick={filterByLikes}>By likes</button>
-          <button type="button" onClick={filterByRating}>By rating</button>
+          <label htmlFor="likesSorting">
+            Sort by likes
+            <select defaultValue={sortingType} onChange={sortingByLikes} id="likesSorting">
+              <option value="">Sort by</option>
+              <option value="ASC">ASC</option>
+              <option value="DESC">DESC</option>
+            </select>
+          </label>
+          <label htmlFor="ratingSorting">
+            Sort by likes
+            <select defaultValue={sortingType} onChange={sortingByRating} id="ratingSorting">
+              <option value="">Sort by</option>
+              <option value="ASC">ASC</option>
+              <option value="DESC">DESC</option>
+            </select>
+          </label>
           <div className={styles.searchForm}>
             <button type="button" onClick={searchByQuery}>
               <span className="visually-hidden">Search</span>
@@ -137,7 +175,5 @@ Content.propTypes = {
     video: PropTypes.bool,
     vote_average: PropTypes.number,
     vote_count: PropTypes.number,
-    // likes: PropTypes.number.isRequired,
-    // rating: PropTypes.number.isRequired,
   })).isRequired,
 };
