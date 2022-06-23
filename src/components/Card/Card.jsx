@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { addLikes } from '../../store/actions/actions';
 import Stars from '../Stars';
 
 import styles from './styles.module.scss';
 import { API_IMAGE_URL } from '../../constants';
 
-function Card({
-  item,
-  onClick,
-  setLikesById,
-  setRatingById,
-}) {
+function Card(props) {
+  const { item, onClick } = props;
+
   const [likes, setLikes] = useState(item.likes || 0);
 
   const handleLike = () => {
@@ -22,7 +21,8 @@ function Card({
   };
 
   useEffect(() => {
-    setLikesById(item.id, likes);
+    // eslint-disable-next-line react/destructuring-assignment
+    props.addLikes(item.id, likes);
   }, [likes]);
 
   return (
@@ -47,15 +47,20 @@ function Card({
         </div>
       </div>
       <div className={styles.footer}>
-        <Stars setRatingById={setRatingById} movieId={item.id} stars={item.rating} />
+        <Stars movieId={item.id} stars={item.rating} />
       </div>
     </li>
   );
 }
 
-export default Card;
+const mapDispatchToProps = {
+  addLikes,
+};
+
+export default connect(null, mapDispatchToProps)(Card);
 
 Card.propTypes = {
+  addLikes: PropTypes.func.isRequired,
   item: PropTypes.shape({
     adult: PropTypes.bool,
     backdrop_path: PropTypes.string.isRequired,
@@ -75,6 +80,4 @@ Card.propTypes = {
     rating: PropTypes.number,
   }).isRequired,
   onClick: PropTypes.func.isRequired,
-  setLikesById: PropTypes.func.isRequired,
-  setRatingById: PropTypes.func.isRequired,
 };
