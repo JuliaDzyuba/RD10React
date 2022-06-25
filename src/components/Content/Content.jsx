@@ -14,7 +14,9 @@ function Content(props) {
   const [currentMovieId, setCurrentMovieId] = useState(null);
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [renderList, setRenderList] = useState([]);
   const [searchList, setSearchList] = useState([]);
+  const [sortedList, setSortedList] = useState([]);
   const [sortingType, setSortingType] = useState('');
 
   useEffect(() => {
@@ -25,7 +27,8 @@ function Content(props) {
         if (data.length) {
           setCurrentMovieId(data[0].id);
           props.setMoviesListToStore(data);
-          setSearchList(data);
+          setRenderList(data);
+          setSortedList(data);
         }
       });
   }, []);
@@ -47,46 +50,93 @@ function Content(props) {
   };
 
   const sortingByLikes = (e) => {
+    setSortingType(e.target.value);
     if (e.target.value === 'ASC') {
-      const newList = [...searchList].sort((a, b) => b.likes - a.likes);
-      setSearchList(newList);
-      setSortingType(e.target.value);
+      if (searchList.length) {
+        const newList = [...searchList].sort((a, b) => b.likes - a.likes);
+        setSearchList(newList);
+        setSortedList(newList);
+        setRenderList(newList);
+      } else {
+        const newList = [...movies].sort((a, b) => b.likes - a.likes);
+        setSortedList(newList);
+        setRenderList(newList);
+      }
     }
     if (e.target.value === 'DESC') {
-      const newList = [...searchList].sort((a, b) => a.likes - b.likes);
-      setSearchList(newList);
-      setSortingType(e.target.value);
+      if (searchList.length) {
+        const newList = [...searchList].sort((a, b) => a.likes - b.likes);
+        setSearchList(newList);
+        setSortedList(newList);
+        setRenderList(newList);
+      } else {
+        const newList = [...movies].sort((a, b) => a.likes - b.likes);
+        setSortedList(newList);
+        setRenderList(newList);
+      }
     }
     if (!e.target.value) {
-      setSearchList(movies);
       setSortingType('');
+      setSortedList(movies);
+      setRenderList(movies);
     }
   };
 
   const sortingByRating = (e) => {
+    setSortingType(e.target.value);
     if (e.target.value === 'ASC') {
-      const newList = [...searchList].sort((a, b) => b.rating - a.rating);
-      setSearchList(newList);
-      setSortingType(e.target.value);
+      if (searchList.length) {
+        const newList = [...searchList].sort((a, b) => b.rating - a.rating);
+        setSearchList(newList);
+        setSortedList(newList);
+        setRenderList(newList);
+      } else {
+        const newList = [...movies].sort((a, b) => b.rating - a.rating);
+        setSortedList(newList);
+        setRenderList(newList);
+      }
     }
     if (e.target.value === 'DESC') {
-      const newList = [...searchList].sort((a, b) => a.rating - b.rating);
-      setSearchList(newList);
-      setSortingType(e.target.value);
+      if (searchList.length) {
+        const newList = [...searchList].sort((a, b) => a.rating - b.rating);
+        setSearchList(newList);
+        setSortedList(newList);
+        setRenderList(newList);
+      } else {
+        const newList = [...movies].sort((a, b) => a.rating - b.rating);
+        setSortedList(newList);
+        setRenderList(newList);
+      }
     }
     if (!e.target.value) {
-      setSearchList(movies);
-      setSortingType('');
+      if (searchList.length) {
+        setRenderList(searchList);
+      }
+      setSortedList(movies);
+      setRenderList(movies);
     }
   };
 
   const searchByQuery = () => {
     if (searchQuery) {
-      const newList = movies
-        .filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
-      setSearchList(newList);
+      if (sortingType) {
+        const newList = sortedList
+          .filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
+        setSearchList(newList);
+        setRenderList(newList);
+      } else {
+        const newList = renderList
+          .filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
+        setSearchList(newList);
+        setRenderList(newList);
+      }
     } else {
-      setSearchList(movies);
+      if (sortingType) {
+        setRenderList(sortedList);
+        setSearchList([]);
+      }
+      setRenderList(movies);
+      setSearchList([]);
     }
   };
 
@@ -125,8 +175,8 @@ function Content(props) {
         </div>
         <ul className={styles.list}>
           {
-            searchList.length
-              ? searchList.map((item) => (
+            renderList.length
+              ? renderList.map((item) => (
                 <Card
                   key={item.id}
                   item={item}
