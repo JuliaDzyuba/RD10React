@@ -24,7 +24,6 @@ function Content(props) {
       .then((data) => {
         if (data.length) {
           setCurrentMovieId(data[0].id);
-          // eslint-disable-next-line react/destructuring-assignment
           props.setMoviesListToStore(data);
           setSearchList(data);
         }
@@ -37,7 +36,6 @@ function Content(props) {
       movieServices.getById(url)
         .then((data) => {
           if (data) {
-            // eslint-disable-next-line react/destructuring-assignment
             props.setCurrentMovie(data);
           }
         });

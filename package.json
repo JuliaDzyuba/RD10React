@@ -27,7 +27,10 @@
       "react-app",
       "react-app/jest",
       "airbnb"
-    ]
+    ],
+    "rules": {
+      "react/destructuring-assignment": "off"
+    }
   },
   "browserslist": {
     "production": [

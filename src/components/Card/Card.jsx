@@ -21,7 +21,6 @@ function Card(props) {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react/destructuring-assignment
     props.addLikes(item.id, likes);
   }, [likes]);
 
