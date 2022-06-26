@@ -1,0 +1,19 @@
+.container {
+  width: 100%;
+  max-width: 1550px;
+  height: auto;
+  margin: 0 auto;
+  margin-bottom: auto;
+  padding: 10px;
+  display: flex;
+}
+
+.avatar {
+  width: 30%;
+  padding: 5px;
+}
+
+.info {
+  width: 70%;
+  padding: 5px;
+}
