@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
+import { register } from '../../store/actions/actions';
 import styles from './styles.module.scss';
 
-function Registration() {
+function Registration(props) {
   const [formValue, setFormValue] = useState({
     username: '',
     password: '',
@@ -19,7 +22,10 @@ function Registration() {
   };
 
   const handleClick = () => {
-    localStorage.setItem('user', JSON.stringify(formValue));
+    const localData = JSON.parse(localStorage.getItem('users')) || [];
+    localData.push(formValue);
+    localStorage.setItem('users', JSON.stringify(localData));
+    props.register(formValue);
     history.push('/');
   };
 
@@ -62,4 +68,12 @@ function Registration() {
   );
 }
 
-export default Registration;
+const mapDispatchToProps = {
+  register,
+};
+
+export default connect(null, mapDispatchToProps)(Registration);
+
+Registration.propTypes = {
+  register: PropTypes.func.isRequired,
+};

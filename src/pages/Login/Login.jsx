@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
+import { login } from '../../store/actions/actions';
 import styles from './styles.module.scss';
 
-function Login() {
+function Login(props) {
   const [formValue, setFormValue] = useState({
     username: '',
     password: '',
@@ -20,8 +23,10 @@ function Login() {
   };
 
   const handleClick = () => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user && user.username === formValue.username && user.password === formValue.password) {
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const existUser = users && users.find((i) => i.username === formValue.username);
+    if (users.length && existUser && existUser.password === formValue.password) {
+      props.login(formValue);
       history.push('/');
     } else {
       setError('Username or password is incorrect');
@@ -68,4 +73,12 @@ function Login() {
   );
 }
 
-export default Login;
+const mapDispatchToProps = {
+  login,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
+
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+};
