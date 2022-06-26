@@ -3,15 +3,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { API_KEY, API_URL } from '../../constants';
 import movieServices from '../../services/movieServices';
-import { setMoviesListToStore, setCurrentMovie } from '../../store/actions/actions';
+import { setMoviesListToStore } from '../../store/actions/actions';
 import Card from '../Card';
-import Info from '../Info';
 import styles from './styles.module.scss';
 
 function Content(props) {
   const { movies } = props;
-
-  const [currentMovieId, setCurrentMovieId] = useState(null);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [renderList, setRenderList] = useState([]);
@@ -25,29 +22,12 @@ function Content(props) {
     movieServices.getAll(url)
       .then((data) => {
         if (data.length) {
-          setCurrentMovieId(data[0].id);
           props.setMoviesListToStore(data);
           setRenderList(data);
           setSortedList(data);
         }
       });
   }, []);
-
-  useEffect(() => {
-    if (currentMovieId) {
-      const url = `${API_URL}/movie/${currentMovieId}?api_key=${API_KEY}`;
-      movieServices.getById(url)
-        .then((data) => {
-          if (data) {
-            props.setCurrentMovie(data);
-          }
-        });
-    }
-  }, [currentMovieId]);
-
-  const getCurrentMovieId = (e) => {
-    setCurrentMovieId(e.target.id);
-  };
 
   const sortingByLikes = (e) => {
     setSortingType(e.target.value);
@@ -142,54 +122,48 @@ function Content(props) {
 
   return (
     <main className={styles.container}>
-      <div className={styles.left}>
-        <div className={styles.sorting}>
-          <h4>Sort movies</h4>
-          <label htmlFor="likesSorting">
-            Sort by likes
-            <select defaultValue={sortingType} onChange={sortingByLikes} id="likesSorting">
-              <option value="">Sort by</option>
-              <option value="ASC">ASC</option>
-              <option value="DESC">DESC</option>
-            </select>
-          </label>
-          <label htmlFor="ratingSorting">
-            Sort by likes
-            <select defaultValue={sortingType} onChange={sortingByRating} id="ratingSorting">
-              <option value="">Sort by</option>
-              <option value="ASC">ASC</option>
-              <option value="DESC">DESC</option>
-            </select>
-          </label>
-          <div className={styles.searchForm}>
-            <button type="button" onClick={searchByQuery}>
-              <span className="visually-hidden">Search</span>
-            </button>
-            <input
-              className={styles.search}
-              placeholder="Search by name"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
+      <div className={styles.sorting}>
+        <h4>Sort movies</h4>
+        <label htmlFor="likesSorting">
+          Sort by likes
+          <select defaultValue={sortingType} onChange={sortingByLikes} id="likesSorting">
+            <option value="">Sort by</option>
+            <option value="ASC">ASC</option>
+            <option value="DESC">DESC</option>
+          </select>
+        </label>
+        <label htmlFor="ratingSorting">
+          Sort by likes
+          <select defaultValue={sortingType} onChange={sortingByRating} id="ratingSorting">
+            <option value="">Sort by</option>
+            <option value="ASC">ASC</option>
+            <option value="DESC">DESC</option>
+          </select>
+        </label>
+        <div className={styles.searchForm}>
+          <button type="button" onClick={searchByQuery}>
+            <span className="visually-hidden">Search</span>
+          </button>
+          <input
+            className={styles.search}
+            placeholder="Search by name"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
-        <ul className={styles.list}>
-          {
-            renderList.length
-              ? renderList.map((item) => (
-                <Card
-                  key={item.id}
-                  item={item}
-                  onClick={getCurrentMovieId}
-                />
-              ))
-              : 'Oops! There is nothing here.'
-          }
-        </ul>
       </div>
-      <div className={styles.right}>
-        {currentMovieId ? <Info /> : 'Oops! There is nothing here.'}
-      </div>
+      <ul className={styles.list}>
+        {
+          renderList.length
+            ? renderList.map((item) => (
+              <Card
+                key={item.id}
+                item={item}
+              />
+            ))
+            : 'Oops! There is nothing here.'
+        }
+      </ul>
     </main>
   );
 }
@@ -200,14 +174,12 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   setMoviesListToStore,
-  setCurrentMovie,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Content);
 
 Content.propTypes = {
   setMoviesListToStore: PropTypes.func.isRequired,
-  setCurrentMovie: PropTypes.func.isRequired,
   movies: PropTypes.arrayOf(PropTypes.shape({
     adult: PropTypes.bool,
     backdrop_path: PropTypes.string.isRequired,
