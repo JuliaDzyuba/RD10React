@@ -34,6 +34,7 @@ function Info(props) {
   return (
     <div className={styles.container}>
       <div className={styles.rating}>
+        <Link to="/">Go to all movies</Link>
         <h4>{movie && movie.title}</h4>
         <p>
           <strong>Produced by: </strong>
@@ -43,6 +44,7 @@ function Info(props) {
           <strong>Release: </strong>
           {movie && movie.release_date}
         </p>
+        <Link to={`/movies/${movieId}/edit`}>Edit movie</Link>
       </div>
       <div className={styles.info}>
         <div className={styles.poster}>
