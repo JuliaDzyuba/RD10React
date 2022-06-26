@@ -25,3 +25,17 @@ export const addRating = (movieId, rating) => ({
     rating,
   },
 });
+
+export const login = (userData) => ({
+  type: actionTypes.LOGIN,
+  payload: userData,
+});
+
+export const register = (userData) => ({
+  type: actionTypes.LOGIN,
+  payload: userData,
+});
+
+export const logout = () => ({
+  type: actionTypes.LOGIN,
+});
