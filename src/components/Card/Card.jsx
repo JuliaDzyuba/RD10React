@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { addLikes } from '../../store/actions/actions';
 import Stars from '../Stars';
 
@@ -39,7 +40,7 @@ function Card(props) {
           <span className={styles.count}>{likes}</span>
         </div>
         <div className={styles.info}>
-          <h2 onClick={onClick} aria-hidden="true" id={item.id}>{item.title}</h2>
+          <Link to={`/movies/${item.id}`} onClick={onClick} aria-hidden="true" id={item.id}>{item.title}</Link>
           <div className={styles.poster}>
             <img src={`${API_IMAGE_URL}${item.backdrop_path}`} alt={item.title} />
           </div>
