@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { editMovie } from '../../store/actions/actions';
 import styles from './styles.module.scss';
 
 function EditMovie(props) {
   const { movieId } = useParams();
+  const history = useHistory();
 
   const [formValue, setFormValue] = useState({
-    title: props.currentMovie.title || '',
-    backdrop_path: props.currentMovie.backdrop_path || '',
-    genres: props.currentMovie.genres.map((g) => g.name).join(', ') || '',
-    overview: props.currentMovie.overview || '',
+    title: props.currentMovie.title,
+    backdrop_path: props.currentMovie.backdrop_path,
+    genres: props.currentMovie.genres.map((g) => g.name).join(','),
+    overview: props.currentMovie.overview,
   });
 
   const handleSubmit = (e) => {
@@ -23,6 +25,8 @@ function EditMovie(props) {
   };
 
   const handleClick = () => {
+    props.editMovie(movieId, formValue);
+    history.goBack();
   };
 
   return (
@@ -44,7 +48,7 @@ function EditMovie(props) {
           Image URL
           <input
             type="text"
-            name="imageUrl"
+            name="backdrop_path"
             id="imageUrl"
             placeholder="Enter imageUrl..."
             value={formValue.backdrop_path}
@@ -66,7 +70,7 @@ function EditMovie(props) {
           Description
           <textarea
             type="text"
-            name="description"
+            name="overview"
             id="description"
             placeholder="Enter description..."
             value={formValue.overview}
@@ -89,7 +93,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-
+  editMovie,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditMovie);
@@ -132,4 +136,5 @@ EditMovie.propTypes = {
     vote_average: PropTypes.number,
     vote_count: PropTypes.number,
   }).isRequired,
+  editMovie: PropTypes.func.isRequired,
 };
