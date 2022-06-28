@@ -46,18 +46,19 @@
 }
 
 .info {
-  padding: 10px;
-  
-  h2 {
-    max-width: 200px;
-    font-size: 14px;
-    text-overflow: ellipsis;
-    overflow-x: hidden;
-    white-space: nowrap;
-    cursor: pointer;
-    &:hover {
-      color: rgb(255, 5, 76);
-    }
+  padding: 10px;  
+}
+
+.title {
+  display: block;
+  max-width: 200px;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  &:hover {
+    color: rgb(255, 5, 76);
   }
 }
 

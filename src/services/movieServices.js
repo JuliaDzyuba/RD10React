@@ -1,6 +1,8 @@
+import { API_KEY, API_URL } from '../constants';
+
 class MovieServices {
-  // eslint-disable-next-line class-methods-use-this
-  async getAll(url) {
+  async getAll() {
+    const url = `${API_URL}discover/movie?api_key=${API_KEY}`;
     try {
       const response = await fetch(url);
       const data = await response.json();
@@ -10,10 +12,32 @@ class MovieServices {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  async getById(url) {
+  async getActorById(actorId) {
+    const url = `${API_URL}/person/${actorId}?api_key=${API_KEY}`;
     try {
       const response = await fetch(url);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async getDetailById(movieId) {
+    const url = `${API_URL}/movie/${movieId}?api_key=${API_KEY}`;
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async getCastById(movieId) {
+    const castUrl = `${API_URL}/movie/${movieId}/credits?api_key=${API_KEY}`;
+    try {
+      const response = await fetch(castUrl);
       const data = await response.json();
       return data;
     } catch (error) {

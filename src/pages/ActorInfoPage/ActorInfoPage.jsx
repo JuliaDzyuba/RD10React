@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { API_IMAGE_URL, API_KEY, API_URL } from '../../constants';
+import { API_IMAGE_URL } from '../../constants';
 import movieServices from '../../services/movieServices';
 import style from './styles.module.scss';
 
@@ -12,8 +12,7 @@ function ActorInfoPage() {
 
   useEffect(() => {
     if (actorId) {
-      const url = `${API_URL}/person/${actorId}?api_key=${API_KEY}`;
-      movieServices.getById(url)
+      movieServices.getActorById(actorId)
         .then((data) => {
           if (data) {
             setActor(data);

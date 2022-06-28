@@ -40,7 +40,7 @@ function Card(props) {
           <span className={styles.count}>{likes}</span>
         </div>
         <div className={styles.info}>
-          <Link to={`/movies/${item.id}`} aria-hidden="true" id={item.id}>{item.title}</Link>
+          <Link to={`/movies/${item.id}`} className={styles.title} aria-hidden="true" id={item.id}>{item.title}</Link>
           <div className={styles.poster}>
             <img src={`${API_IMAGE_URL}${item.backdrop_path}`} alt={item.title} />
           </div>

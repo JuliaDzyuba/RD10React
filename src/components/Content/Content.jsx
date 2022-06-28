@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { API_KEY, API_URL } from '../../constants';
-import movieServices from '../../services/movieServices';
 import { setMoviesListToStore } from '../../store/actions/actions';
 import Card from '../Card';
 import styles from './styles.module.scss';
+import sortMovies from '../../utils/sortMovies';
 
 function Content(props) {
   const { movies } = props;
@@ -17,40 +16,20 @@ function Content(props) {
   const [sortingType, setSortingType] = useState('');
 
   useEffect(() => {
-    const url = `${API_URL}discover/movie?api_key=${API_KEY}`;
-
-    movieServices.getAll(url)
-      .then((data) => {
-        if (data.length) {
-          props.setMoviesListToStore(data);
-          setRenderList(data);
-          setSortedList(data);
-        }
-      });
+    setRenderList(movies);
+    setSortedList(movies);
   }, []);
 
   const sortingByLikes = (e) => {
     setSortingType(e.target.value);
-    if (e.target.value === 'ASC') {
+    if (e.target.value) {
       if (searchList.length) {
-        const newList = [...searchList].sort((a, b) => b.likes - a.likes);
+        const newList = sortMovies(searchList, e.target.value, 'likes');
         setSearchList(newList);
         setSortedList(newList);
         setRenderList(newList);
       } else {
-        const newList = [...movies].sort((a, b) => b.likes - a.likes);
-        setSortedList(newList);
-        setRenderList(newList);
-      }
-    }
-    if (e.target.value === 'DESC') {
-      if (searchList.length) {
-        const newList = [...searchList].sort((a, b) => a.likes - b.likes);
-        setSearchList(newList);
-        setSortedList(newList);
-        setRenderList(newList);
-      } else {
-        const newList = [...movies].sort((a, b) => a.likes - b.likes);
+        const newList = sortMovies(movies, e.target.value, 'likes');
         setSortedList(newList);
         setRenderList(newList);
       }
@@ -64,26 +43,14 @@ function Content(props) {
 
   const sortingByRating = (e) => {
     setSortingType(e.target.value);
-    if (e.target.value === 'ASC') {
+    if (e.target.value) {
       if (searchList.length) {
-        const newList = [...searchList].sort((a, b) => b.rating - a.rating);
+        const newList = sortMovies(searchList, e.target.value, 'rating');
         setSearchList(newList);
         setSortedList(newList);
         setRenderList(newList);
       } else {
-        const newList = [...movies].sort((a, b) => b.rating - a.rating);
-        setSortedList(newList);
-        setRenderList(newList);
-      }
-    }
-    if (e.target.value === 'DESC') {
-      if (searchList.length) {
-        const newList = [...searchList].sort((a, b) => a.rating - b.rating);
-        setSearchList(newList);
-        setSortedList(newList);
-        setRenderList(newList);
-      } else {
-        const newList = [...movies].sort((a, b) => a.rating - b.rating);
+        const newList = sortMovies(movies, e.target.value, 'rating');
         setSortedList(newList);
         setRenderList(newList);
       }
@@ -111,12 +78,14 @@ function Content(props) {
         setRenderList(newList);
       }
     } else {
+      setSearchQuery('');
       if (sortingType) {
         setRenderList(sortedList);
         setSearchList([]);
+      } else {
+        setRenderList(movies);
+        setSearchList([]);
       }
-      setRenderList(movies);
-      setSearchList([]);
     }
   };
 
@@ -179,7 +148,6 @@ const mapDispatchToProps = {
 export default connect(mapStateToProps, mapDispatchToProps)(Content);
 
 Content.propTypes = {
-  setMoviesListToStore: PropTypes.func.isRequired,
   movies: PropTypes.arrayOf(PropTypes.shape({
     adult: PropTypes.bool,
     backdrop_path: PropTypes.string.isRequired,
