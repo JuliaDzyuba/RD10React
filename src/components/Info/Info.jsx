@@ -1,47 +1,53 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { API_IMAGE_URL } from '../../constants';
 
-function Info({ movie }) {
+function Info(props) {
+  const { currentMovie: movie } = props;
   return (
     <>
       <div className={styles.rating}>
-        <h4>{movie.title}</h4>
+        <h4>{movie && movie.title}</h4>
         <p>
           <strong>Produced by: </strong>
-          {movie.production_companies.map((company) => ` ${company.name}`).toString()}
+          {movie && movie.production_companies.map((company) => ` ${company.name}`).toString()}
         </p>
         <p>
           <strong>Release: </strong>
-          {movie.release_date}
+          {movie && movie.release_date}
         </p>
       </div>
       <div className={styles.info}>
         <div className={styles.poster}>
-          <img src={`${API_IMAGE_URL}${movie.backdrop_path}`} alt={movie.title} />
+          <img src={movie && `${API_IMAGE_URL}${movie.backdrop_path}`} alt={movie && movie.title} />
         </div>
         <p>
           <strong>Site: </strong>
-          <a href={movie.homepage}>{movie.homepage}</a>
+          <a href={movie && movie.homepage}>{movie && movie.homepage}</a>
         </p>
         <p>
           <strong>Genres: </strong>
-          {movie.genres.map((g) => g.name).toString()}
+          {movie && movie.genres.map((g) => g.name).toString()}
         </p>
         <p>
           <strong>Description: </strong>
-          {movie.overview}
+          {movie && movie.overview}
         </p>
       </div>
     </>
   );
 }
 
-export default Info;
+const mapStateToProps = (state) => ({
+  currentMovie: state.movieReducer.currentMovie,
+});
+
+export default connect(mapStateToProps, null)(Info);
 
 Info.propTypes = {
-  movie: PropTypes.shape({
+  currentMovie: PropTypes.shape({
     adult: PropTypes.bool,
     backdrop_path: PropTypes.string.isRequired,
     budget: PropTypes.number,
@@ -77,5 +83,9 @@ Info.propTypes = {
     video: PropTypes.bool,
     vote_average: PropTypes.number,
     vote_count: PropTypes.number,
-  }).isRequired,
+  }),
+};
+
+Info.defaultProps = {
+  currentMovie: {},
 };

@@ -46,6 +46,14 @@
       color: rgb(255, 5, 76);
     }
   }
+  label {
+    margin: 0 15px;
+  }
+  select {
+    padding: 5px 10px;
+    border: 1px solid lightgrey;
+    margin-left: 5px;
+  }
 }
 
 .searchForm {
