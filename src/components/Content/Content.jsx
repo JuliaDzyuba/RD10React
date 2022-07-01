@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { setMoviesListToStore } from '../../store/actions/actions';
+import { useSelector } from 'react-redux';
 import Card from '../Card';
 import styles from './styles.module.scss';
 import sortMovies from '../../utils/sortMovies';
+import Loader from '../Loader';
 
-function Content(props) {
-  const { movies } = props;
+function Content() {
+  const { moviesList: movies, isLoading, isError } = useSelector((state) => state.movieReducer);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [renderList, setRenderList] = useState([]);
@@ -18,7 +17,7 @@ function Content(props) {
   useEffect(() => {
     setRenderList(movies);
     setSortedList(movies);
-  }, []);
+  }, [movies]);
 
   const sortingByLikes = (e) => {
     setSortingType(e.target.value);
@@ -89,6 +88,13 @@ function Content(props) {
     }
   };
 
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (isError) {
+    return <h1>Something went wrong ...</h1>;
+  }
+
   return (
     <main className={styles.container}>
       <div className={styles.sorting}>
@@ -137,31 +143,4 @@ function Content(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  movies: state.movieReducer.moviesList,
-});
-
-const mapDispatchToProps = {
-  setMoviesListToStore,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Content);
-
-Content.propTypes = {
-  movies: PropTypes.arrayOf(PropTypes.shape({
-    adult: PropTypes.bool,
-    backdrop_path: PropTypes.string.isRequired,
-    genre_ids: PropTypes.arrayOf(PropTypes.number),
-    id: PropTypes.number,
-    original_language: PropTypes.string,
-    original_title: PropTypes.string,
-    overview: PropTypes.string,
-    popularity: PropTypes.number,
-    poster_path: PropTypes.string,
-    release_date: PropTypes.string,
-    title: PropTypes.string.isRequired,
-    video: PropTypes.bool,
-    vote_average: PropTypes.number,
-    vote_count: PropTypes.number,
-  })).isRequired,
-};
+export default Content;

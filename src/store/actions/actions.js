@@ -1,62 +1,39 @@
-import * as actionTypes from '../constants/constants';
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
+import movieServices from '../../services/movieServices';
 
-export const setMoviesListToStore = (moviesList) => ({
-  type: actionTypes.SET_MOVIES_LIST,
-  payload: moviesList,
-});
-
-export const setCurrentMovie = (movie) => ({
-  type: actionTypes.SET_CURRENT_MOVIE,
-  payload: movie,
-});
-
-export const addMovieInfo = (movieId, additions) => ({
-  type: actionTypes.ADD_MOVIE_INFO,
-  payload: {
-    movieId,
-    additions,
+export const getMoviesList = createAsyncThunk(
+  'movies/getMoviesList',
+  async (thunk) => {
+    try {
+      const movies = await movieServices.getAll();
+      return movies;
+    } catch (error) {
+      return thunk.rejectWithValue({
+        message: 'Error',
+      });
+    }
   },
-});
+);
 
-export const editMovie = (movieId, changes) => ({
-  type: actionTypes.EDIT_MOVIE,
-  payload: {
-    movieId,
-    changes,
+export const getCurrentMovie = createAsyncThunk(
+  'movies/getCurrentMovie',
+  async (movieId, thunk) => {
+    try {
+      const movie = await movieServices.getDetailById(movieId);
+      const credits = await movieServices.getCastById(movieId);
+      return { ...movie, ...credits };
+    } catch (error) {
+      return thunk.rejectWithValue({
+        message: 'Error',
+      });
+    }
   },
-});
+);
 
-export const deleteMovie = (movieId) => ({
-  type: actionTypes.DELETE_MOVIE,
-  payload: movieId,
-});
-
-export const addLikes = (movieId, likes) => ({
-  type: actionTypes.ADD_LIKES,
-  payload: {
-    movieId,
-    likes,
-  },
-});
-
-export const addRating = (movieId, rating) => ({
-  type: actionTypes.ADD_RATINGS,
-  payload: {
-    movieId,
-    rating,
-  },
-});
-
-export const login = (userData) => ({
-  type: actionTypes.LOGIN,
-  payload: userData,
-});
-
-export const register = (userData) => ({
-  type: actionTypes.LOGIN,
-  payload: userData,
-});
-
-export const logout = () => ({
-  type: actionTypes.LOGIN,
-});
+export const editMovie = createAction('movies/editMovie');
+export const deleteMovie = createAction('movies/deleteMovie');
+export const addLikes = createAction('movies/addLikes');
+export const addRating = createAction('movies/addRating');
+export const login = createAction('user/login');
+export const register = createAction('user/register');
+export const logout = createAction('user/logout');

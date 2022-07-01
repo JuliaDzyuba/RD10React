@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addLikes } from '../../store/actions/actions';
+import { addLikes } from '../../store/slices/movie.slice';
 import Stars from '../Stars';
 
 import styles from './styles.module.scss';
@@ -10,6 +10,7 @@ import { API_IMAGE_URL } from '../../constants';
 
 function Card(props) {
   const { item } = props;
+  const dispatch = useDispatch();
 
   const [likes, setLikes] = useState(item.likes || 0);
 
@@ -22,7 +23,7 @@ function Card(props) {
   };
 
   useEffect(() => {
-    props.addLikes(item.id, likes);
+    dispatch(addLikes({ movieId: item.id, likes }));
   }, [likes]);
 
   return (
@@ -53,14 +54,9 @@ function Card(props) {
   );
 }
 
-const mapDispatchToProps = {
-  addLikes,
-};
-
-export default connect(null, mapDispatchToProps)(Card);
+export default Card;
 
 Card.propTypes = {
-  addLikes: PropTypes.func.isRequired,
   item: PropTypes.shape({
     adult: PropTypes.bool,
     backdrop_path: PropTypes.string.isRequired,

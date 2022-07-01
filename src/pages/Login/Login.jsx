@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { login } from '../../store/actions/actions';
+import { login } from '../../store/slices/user.slice';
 import styles from './styles.module.scss';
 
-function Login(props) {
+function Login() {
   const [formValue, setFormValue] = useState({
     username: '',
     password: '',
@@ -13,6 +12,7 @@ function Login(props) {
   const [error, setError] = useState('');
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.prevent.default();
@@ -26,7 +26,7 @@ function Login(props) {
     const users = JSON.parse(localStorage.getItem('users')) || [];
     const existUser = users && users.find((i) => i.username === formValue.username);
     if (users.length && existUser && existUser.password === formValue.password) {
-      props.login(formValue);
+      dispatch(login(formValue));
       history.push('/');
     } else {
       setError('Username or password is incorrect');
@@ -73,12 +73,4 @@ function Login(props) {
   );
 }
 
-const mapDispatchToProps = {
-  login,
-};
-
-export default connect(null, mapDispatchToProps)(Login);
-
-Login.propTypes = {
-  login: PropTypes.func.isRequired,
-};
+export default Login;

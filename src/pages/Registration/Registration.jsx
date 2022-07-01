@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { register } from '../../store/actions/actions';
+import { register } from '../../store/slices/user.slice';
 import styles from './styles.module.scss';
 
-function Registration(props) {
+function Registration() {
   const [formValue, setFormValue] = useState({
     username: '',
     password: '',
   });
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.prevent.default();
@@ -25,7 +25,7 @@ function Registration(props) {
     const localData = JSON.parse(localStorage.getItem('users')) || [];
     localData.push(formValue);
     localStorage.setItem('users', JSON.stringify(localData));
-    props.register(formValue);
+    dispatch(register(formValue));
     history.push('/');
   };
 
@@ -68,12 +68,4 @@ function Registration(props) {
   );
 }
 
-const mapDispatchToProps = {
-  register,
-};
-
-export default connect(null, mapDispatchToProps)(Registration);
-
-Registration.propTypes = {
-  register: PropTypes.func.isRequired,
-};
+export default Registration;

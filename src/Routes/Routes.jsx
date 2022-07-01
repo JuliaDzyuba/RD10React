@@ -5,6 +5,7 @@ import ActorInfoPage from '../pages/ActorInfoPage';
 import EditMovie from '../pages/EditMovie';
 import Login from '../pages/Login';
 import MainPage from '../pages/MainPage';
+import NotFound from '../pages/NotFound';
 import Registration from '../pages/Registration/Registration';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
@@ -18,9 +19,7 @@ function Routes() {
       <PublicRoute exact path="/registration" component={Registration} />
       <PrivateRoute exact path="/" component={MainPage} />
       <PrivateRoute exact path="/movies/:movieId/edit" component={EditMovie} />
-      <Route path="*">
-        <h1>Not found</h1>
-      </Route>
+      <Route path="/*" component={NotFound} />
     </Switch>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import Loader from '../../components/Loader';
 import { API_IMAGE_URL } from '../../constants';
 import movieServices from '../../services/movieServices';
 import style from './styles.module.scss';
@@ -50,9 +51,7 @@ function ActorInfoPage() {
           </div>
         </>
       ) : (
-        <h2>
-          Opps!
-        </h2>
+        <Loader />
       )}
     </div>
   );
