@@ -10,6 +10,27 @@ export const setCurrentMovie = (movie) => ({
   payload: movie,
 });
 
+export const addMovieInfo = (movieId, additions) => ({
+  type: actionTypes.ADD_MOVIE_INFO,
+  payload: {
+    movieId,
+    additions,
+  },
+});
+
+export const editMovie = (movieId, changes) => ({
+  type: actionTypes.EDIT_MOVIE,
+  payload: {
+    movieId,
+    changes,
+  },
+});
+
+export const deleteMovie = (movieId) => ({
+  type: actionTypes.DELETE_MOVIE,
+  payload: movieId,
+});
+
 export const addLikes = (movieId, likes) => ({
   type: actionTypes.ADD_LIKES,
   payload: {
@@ -24,4 +45,18 @@ export const addRating = (movieId, rating) => ({
     movieId,
     rating,
   },
+});
+
+export const login = (userData) => ({
+  type: actionTypes.LOGIN,
+  payload: userData,
+});
+
+export const register = (userData) => ({
+  type: actionTypes.LOGIN,
+  payload: userData,
+});
+
+export const logout = () => ({
+  type: actionTypes.LOGIN,
 });

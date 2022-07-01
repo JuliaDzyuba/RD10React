@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { addLikes } from '../../store/actions/actions';
 import Stars from '../Stars';
 
@@ -8,7 +9,7 @@ import styles from './styles.module.scss';
 import { API_IMAGE_URL } from '../../constants';
 
 function Card(props) {
-  const { item, onClick } = props;
+  const { item } = props;
 
   const [likes, setLikes] = useState(item.likes || 0);
 
@@ -21,7 +22,6 @@ function Card(props) {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react/destructuring-assignment
     props.addLikes(item.id, likes);
   }, [likes]);
 
@@ -40,7 +40,7 @@ function Card(props) {
           <span className={styles.count}>{likes}</span>
         </div>
         <div className={styles.info}>
-          <h2 onClick={onClick} aria-hidden="true" id={item.id}>{item.title}</h2>
+          <Link to={`/movies/${item.id}`} className={styles.title} aria-hidden="true" id={item.id}>{item.title}</Link>
           <div className={styles.poster}>
             <img src={`${API_IMAGE_URL}${item.backdrop_path}`} alt={item.title} />
           </div>
@@ -79,5 +79,4 @@ Card.propTypes = {
     likes: PropTypes.number,
     rating: PropTypes.number,
   }).isRequired,
-  onClick: PropTypes.func.isRequired,
 };

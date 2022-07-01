@@ -5,6 +5,7 @@
   margin: 0 auto;
   margin-bottom: auto;
   display: flex;
+  flex-direction: column;
   padding: 10px; 
 }
 
@@ -25,11 +26,10 @@
 .list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 15px;
   padding: 10px;
   list-style: none;
-  max-height: 450px;
-  overflow-y: auto;
 }
 
 .sorting {
