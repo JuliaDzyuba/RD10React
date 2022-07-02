@@ -40,6 +40,11 @@ select {
   font: inherit;
 }
 
+button {
+  min-height: 35px;
+  cursor: pointer;
+}
+
 #root, .App {
   flex-grow: 1;
   display: flex;

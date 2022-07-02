@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
+import useTranslation from '../../hooks/useTranslation';
 import { editMovie } from '../../store/slices/movie.slice';
 import styles from './styles.module.scss';
 
@@ -9,6 +10,9 @@ function EditMovie() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { currentMovie } = useSelector((state) => state.movieReducer);
+
+  const { lang } = useSelector((state) => state.userReducer);
+  const intl = useTranslation(lang);
 
   const [formValue, setFormValue] = useState({
     title: currentMovie.title,
@@ -32,56 +36,56 @@ function EditMovie() {
 
   return (
     <div className={styles.container}>
-      <h1>Edit Movie</h1>
+      <h1>{intl['app-editpage']}</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">
-          Title
+          {intl['app-editpage-title']}
           <input
             type="text"
             name="title"
             id="title"
-            placeholder="Enter title..."
+            placeholder={intl['app-editpage-title-placeholder']}
             value={formValue.title}
             onChange={handleChange}
           />
         </label>
         <label htmlFor="imageUrl">
-          Image URL
+          {intl['app-editpage-image']}
           <input
             type="text"
             name="backdrop_path"
             id="imageUrl"
-            placeholder="Enter imageUrl..."
+            placeholder={intl['app-editpage-image-placeholder']}
             value={formValue.backdrop_path}
             onChange={handleChange}
           />
         </label>
         <label htmlFor="genres">
-          Genres
+          {intl['app-editpage-genres']}
           <input
             type="text"
             name="genres"
             id="genres"
-            placeholder="Enter genres..."
+            placeholder={intl['app-editpage-genres-placeholder']}
             value={formValue.genres}
             onChange={handleChange}
           />
         </label>
         <label htmlFor="description">
-          Description
+          {intl['app-editpage-description']}
           <textarea
             type="text"
             name="overview"
             id="description"
-            placeholder="Enter description..."
+            placeholder={intl['app-editpage-description-placeholder']}
             value={formValue.overview}
             onChange={handleChange}
             rows={10}
           />
         </label>
         <div className={styles.buttonsGroup}>
-          <button type="button" className={styles.btn} onClick={handleClick}>Save</button>
-          <Link to={`/movies/${movieId}`} className={styles.btn}>Go back</Link>
+          <button type="button" className={styles.btn} onClick={handleClick}>{intl['app-editpage-button-save']}</button>
+          <Link to={`/movies/${movieId}`} className={styles.btn}>{intl['app-editpage-button-back']}</Link>
         </div>
       </form>
     </div>

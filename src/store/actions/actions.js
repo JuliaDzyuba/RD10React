@@ -37,3 +37,4 @@ export const addRating = createAction('movies/addRating');
 export const login = createAction('user/login');
 export const register = createAction('user/register');
 export const logout = createAction('user/logout');
+export const changeLang = createAction('user/changeLang');
