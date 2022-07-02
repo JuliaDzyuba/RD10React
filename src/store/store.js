@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import logger from 'redux-logger';
 import userReducer from './slices/user.slice';
 import movieReducer from './slices/movie.slice';
+import logger from '../utils/myLogger';
 
 const store = configureStore({
   reducer: {
