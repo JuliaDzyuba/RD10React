@@ -4,7 +4,7 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 import styles from './styles.module.scss';
 import { API_IMAGE_URL } from '../../constants';
 import { getCurrentMovie } from '../../store/actions/actions';
-import { deleteMovie } from '../../store/slices/movie.slice';
+import { deleteMovie, setCurrentMovie } from '../../store/slices/movie.slice';
 import Loader from '../Loader';
 import useTranslation from '../../hooks/useTranslation';
 
@@ -26,6 +26,8 @@ function Info() {
     if (movieId) {
       if (!movies[idx].isChanged) {
         dispatch(getCurrentMovie(movieId));
+      } else {
+        dispatch(setCurrentMovie(movies[idx]));
       }
     }
   }, [movieId]);

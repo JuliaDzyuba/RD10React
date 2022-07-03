@@ -30,6 +30,7 @@ export const getCurrentMovie = createAsyncThunk(
   },
 );
 
+export const setCurrentMovie = createAction('movies/setCurrentMovie');
 export const editMovie = createAction('movies/editMovie');
 export const deleteMovie = createAction('movies/deleteMovie');
 export const addLikes = createAction('movies/addLikes');

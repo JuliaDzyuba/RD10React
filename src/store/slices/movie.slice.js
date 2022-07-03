@@ -38,6 +38,9 @@ const userSlice = createSlice({
       const idx = state.moviesList.findIndex((item) => item.id === action.payload.movieId);
       state.moviesList[idx].rating = action.payload.rating;
     },
+    setCurrentMovie: (state, action) => {
+      state.currentMovie = action.payload;
+    },
   },
   extraReducers: {
     [getMoviesList.pending]: (state) => {
@@ -74,6 +77,7 @@ export const {
   addLikes,
   addRating,
   addInfo,
+  setCurrentMovie,
 } = userSlice.actions;
 
 export default userSlice.reducer;
