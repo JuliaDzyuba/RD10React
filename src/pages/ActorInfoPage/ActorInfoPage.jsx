@@ -1,30 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import Loader from '../../components/Loader';
 import { API_IMAGE_URL } from '../../constants';
-import movieServices from '../../services/movieServices';
+import withAuth from '../../hoc/withAuth';
+import { getCurrentActor } from '../../store/actions/actions';
+import useTranslation from '../../hooks/useTranslation';
 import style from './styles.module.scss';
 
 function ActorInfoPage() {
   const { actorId } = useParams();
-  const [actor, setActor] = useState();
-
+  const dispatch = useDispatch();
   const history = useHistory();
+
+  const { currentActor: actor, isLoading, isError } = useSelector((state) => state.movieReducer);
+
+  const { lang } = useSelector((state) => state.userReducer);
+  const intl = useTranslation(lang);
 
   useEffect(() => {
     if (actorId) {
-      movieServices.getActorById(actorId)
-        .then((data) => {
-          if (data) {
-            setActor(data);
-          }
-        });
+      dispatch(getCurrentActor(actorId));
     }
   }, [actorId]);
 
   const handleGoBack = () => {
     history.goBack();
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isError) {
+    return <h1>Something went wrong ...</h1>;
+  }
 
   return (
     <div className={style.container}>
@@ -34,18 +44,18 @@ function ActorInfoPage() {
             <img src={actor.profile_path ? `${API_IMAGE_URL}${actor.profile_path}` : 'https://dummyimage.com/400x400/eeeeee/ffffff.jpg'} alt={actor.name} />
           </div>
           <div className={style.info}>
-            <button type="button" onClick={handleGoBack}>Go back</button>
+            <button type="button" onClick={handleGoBack}>{intl['app-actorpage-button-back']}</button>
             <h1>{actor.name}</h1>
             <p>
-              <strong>Birthday: </strong>
+              <strong>{intl['app-actorpage-birthday']}</strong>
               {actor.birthday}
             </p>
             <p>
-              <strong>Place of birth: </strong>
+              <strong>{intl['app-actorpage-place']}</strong>
               {actor.place_of_birth}
             </p>
             <p>
-              <strong>Biography: </strong>
+              <strong>{intl['app-actorpage-biography']}</strong>
               {actor.biography}
             </p>
           </div>
@@ -57,4 +67,4 @@ function ActorInfoPage() {
   );
 }
 
-export default ActorInfoPage;
+export default withAuth(ActorInfoPage);

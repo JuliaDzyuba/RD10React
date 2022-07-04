@@ -1,10 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import { getMoviesList, getCurrentMovie } from '../actions/actions';
+import { getMoviesList, getCurrentMovie, getCurrentActor } from '../actions/actions';
 
 const initialState = {
   moviesList: [],
   currentMovie: null,
+  currentActor: null,
   isError: false,
   isLoading: false,
 };
@@ -65,6 +66,18 @@ const userSlice = createSlice({
       state.moviesList[idx] = { ...action.payload, isChanged: true };
     },
     [getCurrentMovie.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+
+    [getCurrentActor.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getCurrentActor.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.currentActor = action.payload;
+    },
+    [getCurrentActor.rejected]: (state) => {
       state.isLoading = false;
       state.isError = true;
     },

@@ -37,6 +37,10 @@ const ua = {
   'app-editpage-image-placeholder': 'Введіть URL картинки...',
   'app-editpage-genres-placeholder': 'Введіть жанри через кому...',
   'app-editpage-description-placeholder': 'Введіть текст ...',
+  'app-actorpage-button-back': 'До списку всіх фільмів',
+  'app-actorpage-birthday': 'Народився: ',
+  'app-actorpage-place': 'Місце народження: ',
+  'app-actorpage-biography': 'Біографія: ',
 };
 
 export default ua;

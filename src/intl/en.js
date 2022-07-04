@@ -37,6 +37,10 @@ const en = {
   'app-editpage-image-placeholder': 'Enter imageUrl...',
   'app-editpage-genres-placeholder': 'Enter genres...',
   'app-editpage-description-placeholder': 'Enter description...',
+  'app-actorpage-button-back': 'Go back',
+  'app-actorpage-birthday': 'Birthday: ',
+  'app-actorpage-place': 'Place of birth: ',
+  'app-actorpage-biography': 'Biography: ',
 };
 
 export default en;

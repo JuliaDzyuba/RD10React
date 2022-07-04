@@ -30,6 +30,20 @@ export const getCurrentMovie = createAsyncThunk(
   },
 );
 
+export const getCurrentActor = createAsyncThunk(
+  'movies/getCurrentActor',
+  async (actorId, thunk) => {
+    try {
+      const actor = await movieServices.getActorById(actorId);
+      return actor;
+    } catch (error) {
+      return thunk.rejectWithValue({
+        message: 'Error',
+      });
+    }
+  },
+);
+
 export const setCurrentMovie = createAction('movies/setCurrentMovie');
 export const editMovie = createAction('movies/editMovie');
 export const deleteMovie = createAction('movies/deleteMovie');
