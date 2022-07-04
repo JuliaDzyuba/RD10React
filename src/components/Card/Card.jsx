@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames/bind';
 import { addLikes } from '../../store/slices/movie.slice';
 import Stars from '../Stars';
-
-import styles from './styles.module.scss';
 import { API_IMAGE_URL } from '../../constants';
+import styles from './styles.module.scss';
+
+const cx = classNames.bind(styles);
 
 function Card(props) {
   const { item } = props;
@@ -38,10 +40,26 @@ function Card(props) {
           </button>
           <span className={styles.likes}>Likes</span>
           <hr />
-          <span className={styles.count}>{likes}</span>
+          <span className={cx({
+            count: true,
+            maxLikes: likes > 10,
+          })}
+          >
+            {likes}
+          </span>
         </div>
         <div className={styles.info}>
-          <Link to={`/movies/${item.id}`} className={styles.title} aria-hidden="true" id={item.id}>{item.title}</Link>
+          <Link
+            to={`/movies/${item.id}`}
+            className={cx({
+              title: true,
+              best: likes > 10,
+            })}
+            aria-hidden="true"
+            id={item.id}
+          >
+            {item.title}
+          </Link>
           <div className={styles.poster}>
             <img src={`${API_IMAGE_URL}${item.backdrop_path}`} alt={item.title} />
           </div>
