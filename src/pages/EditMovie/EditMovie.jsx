@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import useTranslation from '../../hooks/useTranslation';
 import validateForm from '../../utils/validateForm';
 import { editMovie } from '../../store/slices/movie.slice';
+import withAuth from '../../hoc/withAuth';
 import styles from './styles.module.scss';
 
 function EditMovie() {
@@ -95,4 +96,4 @@ function EditMovie() {
   );
 }
 
-export default EditMovie;
+export default withAuth(EditMovie);

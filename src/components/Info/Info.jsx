@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import styles from './styles.module.scss';
 import { API_IMAGE_URL } from '../../constants';
 import { getCurrentMovie } from '../../store/actions/actions';
 import { deleteMovie, setCurrentMovie } from '../../store/slices/movie.slice';
 import Loader from '../Loader';
 import useTranslation from '../../hooks/useTranslation';
+import withAuth from '../../hoc/withAuth';
+import styles from './styles.module.scss';
 
 function Info() {
   const history = useHistory();
@@ -121,4 +122,4 @@ function Info() {
   );
 }
 
-export default Info;
+export default withAuth(Info);

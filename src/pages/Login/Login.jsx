@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import useTranslation from '../../hooks/useTranslation';
 import { login } from '../../store/slices/user.slice';
+import withAuth from '../../hoc/withAuth';
 import styles from './styles.module.scss';
 
 function Login() {
@@ -77,4 +78,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default withAuth(Login);
