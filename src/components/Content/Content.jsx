@@ -4,9 +4,12 @@ import Card from '../Card';
 import styles from './styles.module.scss';
 import sortMovies from '../../utils/sortMovies';
 import Loader from '../Loader';
+import useTranslation from '../../hooks/useTranslation';
 
 function Content() {
   const { moviesList: movies, isLoading, isError } = useSelector((state) => state.movieReducer);
+  const { lang } = useSelector((state) => state.userReducer);
+  const intl = useTranslation(lang);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [renderList, setRenderList] = useState([]);
@@ -98,21 +101,21 @@ function Content() {
   return (
     <main className={styles.container}>
       <div className={styles.sorting}>
-        <h4>Sort movies</h4>
+        <h4>{intl['app-mainpage-sort']}</h4>
         <label htmlFor="likesSorting">
-          Sort by likes
+          {intl['app-mainpage-sort-likes']}
           <select defaultValue={sortingType} onChange={sortingByLikes} id="likesSorting">
-            <option value="">Sort by</option>
-            <option value="ASC">ASC</option>
-            <option value="DESC">DESC</option>
+            <option value="">---</option>
+            <option value="ASC">{intl['app-mainpage-sort-type-asc']}</option>
+            <option value="DESC">{intl['app-mainpage-sort-type-desc']}</option>
           </select>
         </label>
         <label htmlFor="ratingSorting">
-          Sort by likes
+          {intl['app-mainpage-sort-rating']}
           <select defaultValue={sortingType} onChange={sortingByRating} id="ratingSorting">
-            <option value="">Sort by</option>
-            <option value="ASC">ASC</option>
-            <option value="DESC">DESC</option>
+            <option value="">---</option>
+            <option value="ASC">{intl['app-mainpage-sort-type-asc']}</option>
+            <option value="DESC">{intl['app-mainpage-sort-type-desc']}</option>
           </select>
         </label>
         <div className={styles.searchForm}>
@@ -121,7 +124,7 @@ function Content() {
           </button>
           <input
             className={styles.search}
-            placeholder="Search by name"
+            placeholder={intl['app-mainpage-search-placeholder']}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />

@@ -1,10 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import { getMoviesList, getCurrentMovie } from '../actions/actions';
+import { getMoviesList, getCurrentMovie, getCurrentActor } from '../actions/actions';
 
 const initialState = {
   moviesList: [],
   currentMovie: null,
+  currentActor: null,
   isError: false,
   isLoading: false,
 };
@@ -38,6 +39,9 @@ const userSlice = createSlice({
       const idx = state.moviesList.findIndex((item) => item.id === action.payload.movieId);
       state.moviesList[idx].rating = action.payload.rating;
     },
+    setCurrentMovie: (state, action) => {
+      state.currentMovie = action.payload;
+    },
   },
   extraReducers: {
     [getMoviesList.pending]: (state) => {
@@ -65,6 +69,18 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
     },
+
+    [getCurrentActor.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getCurrentActor.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.currentActor = action.payload;
+    },
+    [getCurrentActor.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
   },
 });
 
@@ -74,6 +90,7 @@ export const {
   addLikes,
   addRating,
   addInfo,
+  setCurrentMovie,
 } = userSlice.actions;
 
 export default userSlice.reducer;

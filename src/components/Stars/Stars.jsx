@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import classNames from 'classnames/bind';
 import { addRating } from '../../store/slices/movie.slice';
+import styles from './styles.module.scss';
+
+const cx = classNames.bind(styles);
 
 function Stars(props) {
   const { movieId, stars } = props;
@@ -26,7 +30,10 @@ function Stars(props) {
             type="button"
             key={ratingId}
             data-id={ratingId}
-            className={ratingId <= rating ? 'on' : 'off'}
+            className={cx({
+              on: ratingId <= rating,
+              off: ratingId > rating,
+            })}
             onClick={ratingHandler}
           >
             &#9733;

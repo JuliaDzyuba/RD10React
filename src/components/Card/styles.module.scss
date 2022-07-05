@@ -39,6 +39,10 @@
   font-size: 12px;
 }
 
+.maxLikes {
+  color: red;
+}
+
 .count {
   font-weight: 700;
   font-size: 14px;
@@ -57,9 +61,15 @@
   overflow-x: hidden;
   white-space: nowrap;
   cursor: pointer;
+  color: inherit;
   &:hover {
     color: rgb(255, 5, 76);
   }
+}
+
+.best {
+  font-weight: 700;
+  color: blue;
 }
 
 .poster {

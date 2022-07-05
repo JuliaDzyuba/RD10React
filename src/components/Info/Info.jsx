@@ -1,15 +1,19 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import styles from './styles.module.scss';
 import { API_IMAGE_URL } from '../../constants';
 import { getCurrentMovie } from '../../store/actions/actions';
-import { deleteMovie } from '../../store/slices/movie.slice';
+import { deleteMovie, setCurrentMovie } from '../../store/slices/movie.slice';
 import Loader from '../Loader';
+import useTranslation from '../../hooks/useTranslation';
+import withAuth from '../../hoc/withAuth';
+import styles from './styles.module.scss';
 
 function Info() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { lang } = useSelector((state) => state.userReducer);
+  const intl = useTranslation(lang);
   const {
     currentMovie: movie,
     moviesList: movies,
@@ -23,6 +27,8 @@ function Info() {
     if (movieId) {
       if (!movies[idx].isChanged) {
         dispatch(getCurrentMovie(movieId));
+      } else {
+        dispatch(setCurrentMovie(movies[idx]));
       }
     }
   }, [movieId]);
@@ -42,37 +48,55 @@ function Info() {
   return (
     <div className={styles.container}>
       <div className={styles.rating}>
-        <Link to="/">Go to all movies</Link>
+        <Link to="/">{intl['app-infopage-link-to-mainpage']}</Link>
         <h4>{movie && movie.title}</h4>
         <p>
-          <strong>Produced by: </strong>
+          <strong>
+            {intl['app-infopage-produced-by']}
+            {': '}
+          </strong>
           {movie && movie.production_companies?.map((company) => ` ${company.name}`).toString()}
         </p>
         <p>
-          <strong>Release: </strong>
+          <strong>
+            {intl['app-infopage-release']}
+            {': '}
+          </strong>
           {movie && movie.release_date}
         </p>
-        <Link to={`/movies/${movieId}/edit`} className={styles.editBtn}>Edit movie</Link>
-        <button type="button" className={styles.deleteBtn} onClick={handleDelete}>Delete movie</button>
+        <Link to={`/movies/${movieId}/edit`} className={styles.editBtn}>{intl['app-infopage-button-edit']}</Link>
+        <button type="button" className={styles.deleteBtn} onClick={handleDelete}>{intl['app-infopage-button-delete']}</button>
       </div>
       <div className={styles.info}>
         <div className={styles.poster}>
           <img src={movie && `${API_IMAGE_URL}${movie.backdrop_path}`} alt={movie && movie.title} />
         </div>
         <p>
-          <strong>Site: </strong>
+          <strong>
+            {intl['app-infopage-site']}
+            {': '}
+          </strong>
           <a href={movie && movie.homepage}>{movie && movie.homepage}</a>
         </p>
         <p>
-          <strong>Genres: </strong>
+          <strong>
+            {intl['app-infopage-genres']}
+            {': '}
+          </strong>
           {movie && movie.genres?.map((g) => g.name).toString()}
         </p>
         <p>
-          <strong>Description: </strong>
+          <strong>
+            {intl['app-infopage-description']}
+            {': '}
+          </strong>
           {movie && movie.overview}
         </p>
         <p>
-          <strong>Cast: </strong>
+          <strong>
+            {intl['app-infopage-cast']}
+            {': '}
+          </strong>
         </p>
         <ul className={styles.cast}>
           {
@@ -98,4 +122,4 @@ function Info() {
   );
 }
 
-export default Info;
+export default withAuth(Info);

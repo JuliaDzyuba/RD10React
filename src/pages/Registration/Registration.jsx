@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { register } from '../../store/slices/user.slice';
+import withAuth from '../../hoc/withAuth';
 import styles from './styles.module.scss';
 
 function Registration() {
@@ -68,4 +69,4 @@ function Registration() {
   );
 }
 
-export default Registration;
+export default withAuth(Registration);
