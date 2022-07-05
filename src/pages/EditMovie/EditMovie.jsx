@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { editMovie } from '../../store/actions/actions';
+import { editMovie } from '../../store/slices/movie.slice';
 import styles from './styles.module.scss';
 
-function EditMovie(props) {
+function EditMovie() {
   const { movieId } = useParams();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { currentMovie } = useSelector((state) => state.movieReducer);
 
   const [formValue, setFormValue] = useState({
-    title: props.currentMovie.title,
-    backdrop_path: props.currentMovie.backdrop_path,
-    genres: props.currentMovie.genres.map((g) => g.name).join(','),
-    overview: props.currentMovie.overview,
+    title: currentMovie.title,
+    backdrop_path: currentMovie.backdrop_path,
+    genres: currentMovie.genres.map((g) => g.name).join(','),
+    overview: currentMovie.overview,
   });
 
   const handleSubmit = (e) => {
@@ -25,7 +26,7 @@ function EditMovie(props) {
   };
 
   const handleClick = () => {
-    props.editMovie(movieId, formValue);
+    dispatch(editMovie({ movieId, formValue }));
     history.goBack();
   };
 
@@ -87,54 +88,4 @@ function EditMovie(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  currentMovie: state.movieReducer.currentMovie,
-  movies: state.movieReducer.moviesList,
-});
-
-const mapDispatchToProps = {
-  editMovie,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditMovie);
-
-EditMovie.propTypes = {
-  currentMovie: PropTypes.shape({
-    adult: PropTypes.bool,
-    backdrop_path: PropTypes.string.isRequired,
-    budget: PropTypes.number,
-    genres: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string.isRequired,
-    })).isRequired,
-    homepage: PropTypes.string.isRequired,
-    id: PropTypes.number,
-    imdb_id: PropTypes.string,
-    original_language: PropTypes.string,
-    original_title: PropTypes.string,
-    overview: PropTypes.string.isRequired,
-    popularity: PropTypes.number,
-    poster_path: PropTypes.string,
-    production_companies: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string.isRequired,
-    })).isRequired,
-    production_countries: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
-    })),
-    release_date: PropTypes.string.isRequired,
-    revenue: PropTypes.number,
-    runtime: PropTypes.number,
-    spoken_languages: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string,
-    })),
-    status: PropTypes.string,
-    tagline: PropTypes.string,
-    title: PropTypes.string.isRequired,
-    video: PropTypes.bool,
-    vote_average: PropTypes.number,
-    vote_count: PropTypes.number,
-  }).isRequired,
-  editMovie: PropTypes.func.isRequired,
-};
+export default EditMovie;

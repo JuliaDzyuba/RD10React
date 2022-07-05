@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { addRating } from '../../store/actions/actions';
+import { useDispatch } from 'react-redux';
+import { addRating } from '../../store/slices/movie.slice';
 
 function Stars(props) {
   const { movieId, stars } = props;
   const [rating, setRating] = useState(stars || 0);
+  const dispatch = useDispatch();
 
   const ratingHandler = (e) => {
     const rate = +e.target.dataset.id;
@@ -13,8 +14,7 @@ function Stars(props) {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react/destructuring-assignment
-    props.addRating(movieId, rating);
+    dispatch(addRating({ movieId, rating }));
   }, [rating]);
 
   return (
@@ -37,16 +37,11 @@ function Stars(props) {
   );
 }
 
-const mapDispatchToProps = {
-  addRating,
-};
-
-export default connect(null, mapDispatchToProps)(Stars);
+export default Stars;
 
 Stars.propTypes = {
   movieId: PropTypes.number.isRequired,
   stars: PropTypes.number,
-  addRating: PropTypes.func.isRequired,
 };
 
 Stars.defaultProps = {

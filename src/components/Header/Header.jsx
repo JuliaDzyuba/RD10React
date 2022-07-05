@@ -1,24 +1,25 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { logout } from '../../store/actions/actions';
+import { logout } from '../../store/slices/user.slice';
 import styles from './styles.module.scss';
 
-function Header(props) {
+function Header() {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.userReducer.user);
 
   const handleLogout = () => {
-    props.logout();
+    dispatch(logout());
     history.push('/login');
   };
 
   return (
     <header className={styles.header}>
       <h1>Movies</h1>
-      {props.user && (
+      {user && (
         <>
-          <p>{props.user.username}</p>
+          <p>{user.username}</p>
           <button type="button" onClick={handleLogout}>Logout</button>
         </>
       )}
@@ -26,24 +27,4 @@ function Header(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  user: state.userReducer.user,
-});
-
-const mapDispatchToProps = {
-  logout,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
-
-Header.propTypes = {
-  logout: PropTypes.func.isRequired,
-  user: PropTypes.shape({
-    username: PropTypes.string,
-    password: PropTypes.string,
-  }),
-};
-
-Header.defaultProps = {
-  user: null,
-};
+export default Header;

@@ -1,9 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function PublicRoute({ component: Component, user, ...other }) {
+function PublicRoute({ component: Component, ...other }) {
+  const user = useSelector((state) => state.user);
   const isUserAuth = Boolean(user);
 
   if (isUserAuth) {
@@ -14,21 +15,8 @@ function PublicRoute({ component: Component, user, ...other }) {
     <Route component={Component} {...other} />
   );
 }
-
-const mapStateToProps = (state) => ({
-  user: state.userReducer.user,
-});
-
-export default connect(mapStateToProps, null)(PublicRoute);
+export default PublicRoute;
 
 PublicRoute.propTypes = {
   component: PropTypes.elementType.isRequired,
-  user: PropTypes.shape({
-    username: PropTypes.string,
-    password: PropTypes.string,
-  }),
-};
-
-PublicRoute.defaultProps = {
-  user: null,
 };

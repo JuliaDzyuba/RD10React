@@ -1,23 +1,21 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import movieServices from './services/movieServices';
-import { setMoviesListToStore } from './store/actions/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMoviesList } from './store/actions/actions';
 
 import Footer from './components/Footer';
 import Header from './components/Header';
 import Routes from './Routes/Routes';
 
-function App(props) {
+function App() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.userReducer.user);
+
   useEffect(() => {
-    movieServices.getAll()
-      .then((data) => {
-        if (data.length) {
-          props.setMoviesListToStore(data);
-        }
-      });
-  }, []);
+    if (user) {
+      dispatch(getMoviesList());
+    }
+  }, [user]);
 
   return (
     <div className="App">
@@ -30,12 +28,4 @@ function App(props) {
   );
 }
 
-const mapDispatchToProps = {
-  setMoviesListToStore,
-};
-
-export default connect(null, mapDispatchToProps)(App);
-
-App.propTypes = {
-  setMoviesListToStore: PropTypes.func.isRequired,
-};
+export default App;
