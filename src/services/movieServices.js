@@ -2,7 +2,7 @@ import { API_KEY, API_URL } from '../constants';
 
 class MovieServices {
   async getAll() {
-    const url = `${API_URL}discover/movie?api_key=${API_KEY}`;
+    const url = `${process.env.API_URL}discover/movie?api_key=${API_KEY}`;
     try {
       const response = await fetch(url);
       const data = await response.json();
