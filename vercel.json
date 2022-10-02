@@ -1,6 +1,5 @@
 {
   "routes": [
-    { "src": "/login", "dest": "/" },
-    { "src": "/[^.]+", "dest": "/", "status": 200 }
+    { "src": "/login", "dest": "/" }
   ]
 }
