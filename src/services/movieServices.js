@@ -1,8 +1,6 @@
-import { API_KEY, API_URL } from '../constants';
-
 class MovieServices {
   async getAll() {
-    const url = `${process.env.API_URL}discover/movie?api_key=${API_KEY}`;
+    const url = `${process.env.REACT_APP_API_URL}discover/movie?api_key=${process.env.REACT_APP_API_KEY}`;
     try {
       const response = await fetch(url);
       const data = await response.json();
@@ -13,7 +11,7 @@ class MovieServices {
   }
 
   async getActorById(actorId) {
-    const url = `${API_URL}/person/${actorId}?api_key=${API_KEY}`;
+    const url = `${process.env.REACT_APP_API_URL}person/${actorId}?api_key=${process.env.REACT_APP_API_KEY}`;
     try {
       const response = await fetch(url);
       const data = await response.json();
@@ -24,7 +22,7 @@ class MovieServices {
   }
 
   async getDetailById(movieId) {
-    const url = `${API_URL}/movie/${movieId}?api_key=${API_KEY}`;
+    const url = `${process.env.REACT_APP_API_URL}movie/${movieId}?api_key=${process.env.REACT_APP_API_KEY}`;
     try {
       const response = await fetch(url);
       const data = await response.json();
@@ -35,7 +33,7 @@ class MovieServices {
   }
 
   async getCastById(movieId) {
-    const castUrl = `${API_URL}/movie/${movieId}/credits?api_key=${API_KEY}`;
+    const castUrl = `${process.env.REACT_APP_API_URL}movie/${movieId}/credits?api_key=${process.env.REACT_APP_API_KEY}`;
     try {
       const response = await fetch(castUrl);
       const data = await response.json();

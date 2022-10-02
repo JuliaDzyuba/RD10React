@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import { API_IMAGE_URL } from '../../constants';
 import { getCurrentMovie } from '../../store/actions/actions';
 import { deleteMovie, setCurrentMovie } from '../../store/slices/movie.slice';
 import Loader from '../Loader';
@@ -69,7 +68,7 @@ function Info() {
       </div>
       <div className={styles.info}>
         <div className={styles.poster}>
-          <img src={movie && `${API_IMAGE_URL}${movie.backdrop_path}`} alt={movie && movie.title} />
+          <img src={movie && `${process.env.REACT_APP_API_IMAGE_URL}${movie.backdrop_path}`} alt={movie && movie.title} />
         </div>
         <p>
           <strong>
@@ -105,7 +104,7 @@ function Info() {
                 <div className={styles.avatar}>
                   <img
                     src={item.profile_path
-                      ? `${API_IMAGE_URL}${item.profile_path}`
+                      ? `${process.env.REACT_APP_API_IMAGE_URL}${item.profile_path}`
                       : 'https://dummyimage.com/400x400/eeeeee/ffffff.jpg'}
                     alt={item.name}
                   />

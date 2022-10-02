@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { addLikes } from '../../store/slices/movie.slice';
 import Stars from '../Stars';
-import { API_IMAGE_URL } from '../../constants';
 import styles from './styles.module.scss';
 
 const cx = classNames.bind(styles);
@@ -61,7 +60,7 @@ function Card(props) {
             {item.title}
           </Link>
           <div className={styles.poster}>
-            <img src={`${API_IMAGE_URL}${item.backdrop_path}`} alt={item.title} />
+            <img src={`${process.env.REACT_APP_API_IMAGE_URL}${item.backdrop_path}`} alt={item.title} />
           </div>
         </div>
       </div>
