@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import Loader from '../../components/Loader';
-import { API_IMAGE_URL } from '../../constants';
 import withAuth from '../../hoc/withAuth';
 import { getCurrentActor } from '../../store/actions/actions';
 import useTranslation from '../../hooks/useTranslation';
@@ -41,7 +40,7 @@ function ActorInfoPage() {
       { actor ? (
         <>
           <div className={style.avatar}>
-            <img src={actor.profile_path ? `${API_IMAGE_URL}${actor.profile_path}` : 'https://dummyimage.com/400x400/eeeeee/ffffff.jpg'} alt={actor.name} />
+            <img src={actor.profile_path ? `${process.env.REACT_APP_API_IMAGE_URL}${actor.profile_path}` : 'https://dummyimage.com/400x400/eeeeee/ffffff.jpg'} alt={actor.name} />
           </div>
           <div className={style.info}>
             <button type="button" onClick={handleGoBack}>{intl['app-actorpage-button-back']}</button>
