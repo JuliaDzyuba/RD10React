@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMoviesList } from './store/actions/actions';
 
