@@ -19,7 +19,7 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
+      <Router basename="/rd10react">
         <Header />
         <Routes />
         <Footer />
